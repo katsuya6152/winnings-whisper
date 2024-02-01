@@ -1,0 +1,16 @@
+services:
+  scrapy:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    image: scrapy:2.11.0
+    container_name: netkeiba
+    volumes:
+      - ./app:/usr/src/app
+    tty: true
+    networks:
+      - external
+
+networks:
+  external:
+    external: true
