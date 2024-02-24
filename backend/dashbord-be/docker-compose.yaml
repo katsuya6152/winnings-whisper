@@ -1,0 +1,17 @@
+services:
+  golang:
+    build:
+      context: .
+      dockerfile: ./app/Dockerfile
+    ports:
+      - 8080:8080
+    volumes:
+      - ./app:/app
+    env_file:
+      - ../../db/.env
+    networks:
+      - external
+
+networks:
+  external:
+    external: true
