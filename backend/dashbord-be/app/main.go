@@ -1,17 +1,21 @@
 package main
 
 import (
-	"net/http"
-
-	"github.com/labstack/echo/v4"
+	"dashbord-be/controller"
+	"dashbord-be/db"
+	"dashbord-be/repository"
+	"dashbord-be/router"
+	"dashbord-be/usecase"
+	"dashbord-be/validator"
 )
 
 func main() {
-	e := echo.New()
-
-	e.GET("/health", func(c echo.Context) error {
-		return c.String(http.StatusOK, "OK")
-	})
-
-	e.Start(":8080")
+	db := db.NewDB()
+	userValidator := validator.NewUserValidator()
+	userRepository := repository.NewUserRepository(db)
+	userUsecase := usecase.NewUserUsecase(userRepository, userValidator)
+	userController := controller.NewUserController(userUsecase)
+	healthController := controller.NewHealthController()
+	e := router.NewRouter(healthController, userController)
+	e.Logger.Fatal(e.Start(":8080"))
 }
