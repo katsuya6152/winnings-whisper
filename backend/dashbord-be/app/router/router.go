@@ -2,7 +2,7 @@ package router
 
 import (
 	"dashbord-be/controller"
-	"net/http"
+	// "net/http"
 	"os"
 
 	echojwt "github.com/labstack/echo-jwt/v4"
@@ -19,14 +19,14 @@ func NewRouter(hc controller.IHealthController, uc controller.IUserController) *
 		AllowMethods:     []string{"GET", "PUT", "POST", "DELETE"},
 		AllowCredentials: true,
 	}))
-	e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
-		CookiePath:     "/",
-		CookieDomain:   os.Getenv("API_DOMAIN"),
-		CookieHTTPOnly: true,
-		// CookieSameSite: http.SameSiteNoneMode,
-		CookieSameSite: http.SameSiteDefaultMode,
-		//CookieMaxAge:   60,
-	}))
+	// e.Use(middleware.CSRFWithConfig(middleware.CSRFConfig{
+	// 	CookiePath:     "/",
+	// 	CookieDomain:   os.Getenv("API_DOMAIN"),
+	// 	CookieHTTPOnly: true,
+	// 	// CookieSameSite: http.SameSiteNoneMode,
+	// 	CookieSameSite: http.SameSiteDefaultMode,
+	// 	//CookieMaxAge:   60,
+	// }))
 	e.GET("/health", hc.HealthCheck)
 	e.POST("/signup", uc.SignUp)
 	e.POST("/login", uc.LogIn)
