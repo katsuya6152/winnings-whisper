@@ -1,4 +1,0 @@
-cd frontend
-cd dashbord-fe
-
-npx lint-staged
