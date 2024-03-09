@@ -6,15 +6,18 @@
   "scripts": {
     "build": "npx tsc",
     "build:watch": "npx tsc --watch",
-    "start:scraper": "npm run build && node ./dist/index.scraper.js"
+    "start:scraper": "npm run build && node ./dist/scraper.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.4.5",
+    "mysql2": "^3.9.2",
     "playwright": "^1.42.1"
   },
   "devDependencies": {
+    "@types/mysql": "^2.15.25",
     "@types/node": "^20.11.25",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.2"
