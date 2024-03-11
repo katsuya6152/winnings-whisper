@@ -6,7 +6,7 @@
   "scripts": {
     "build": "npx tsc",
     "build:watch": "npx tsc --watch",
-    "start:scraper": "npm run build && node ./dist/scraper.js"
+    "start:scraper": "npm run build && node ./dist/index.js"
   },
   "keywords": [],
   "author": "",
