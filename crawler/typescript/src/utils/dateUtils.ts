@@ -4,12 +4,16 @@ export const getWeekendDate = (): string => {
 
   let daysUntilWeekend: number;
 
-  if (dayOfWeek === 0) {
-    daysUntilWeekend = 0;
-  } else if (dayOfWeek === 6) {
-    daysUntilWeekend = 1;
-  } else {
-    daysUntilWeekend = 6 - dayOfWeek;
+  switch (dayOfWeek) {
+    case 0:
+      daysUntilWeekend = 0;
+      break;
+    case 6:
+      daysUntilWeekend = 1;
+      break;
+    default:
+      daysUntilWeekend = 6 - dayOfWeek;
+      break;
   }
 
   const weekend = new Date(today);
@@ -19,8 +23,8 @@ export const getWeekendDate = (): string => {
   const month = weekend.getMonth() + 1;
   const day = weekend.getDate();
 
-  const formattedMonth = month < 10 ? `0${month}` : month.toString();
-  const formattedDay = day < 10 ? `0${day}` : day.toString();
+  const formattedMonth = month.toString().padStart(2, '0');
+  const formattedDay = day.toString().padStart(2, '0');
 
   return `${year}${formattedMonth}${formattedDay}`;
 };
