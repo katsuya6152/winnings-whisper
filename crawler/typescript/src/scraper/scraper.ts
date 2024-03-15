@@ -98,16 +98,21 @@ export class Scraper {
     const horses = await page.locator(HORSE_LIST_SELECTOR).all();
 
     for (const [index, horse] of Object.entries(horses)) {
+      const horseElement: any = horse as any;
       const horseId = id + index.padStart(2, '0');
-      const horseOrder = await this.extractTextContent(horse, `//td[@class="Umaban Txt_C"]`);
-      const box = await this.extractTextContent(horse, `//td[@class="Waku Txt_C"]`);
-      const horseName = await this.extractTextContent(horse, `//span[@class="HorseName"]`);
-      const sexAndAge = await this.extractTextContent(horse, `//td[@class="Barei Txt_C"]`);
-      const burdenWeight = await this.extractTextContent(horse, `//td[@class="Txt_C"]`);
-      const jockey = await this.extractTextContent(horse, `//td[@class="Jockey"]`);
-      const horseWeight = await this.extractTextContent(horse, `//td[@class="Weight"]`);
-      const horseTrainer = "";
-      const horseOwner = "";
+      const box = await this.extractTextContent(horseElement, `//td[position()=1]`);
+      const horseOrder = await this.extractTextContent(horseElement, `//td[position()=2]`);
+      const horseName = await this.extractTextContent(horseElement, `//span[@class="HorseName"]`);
+      const sexAndAge = await this.extractTextContent(horseElement, `//td[@class="Barei Txt_C"]`);
+      const burdenWeight = await this.extractTextContent(horseElement, `//td[@class="Txt_C"]`);
+      const jockey = await this.extractTextContent(horseElement, `//td[@class="Jockey"]`);
+      const horseWeight = await this.extractTextContent(horseElement, `//td[@class="Weight"]`);
+
+      const horseUrl = await horseElement.locator(`//td[@class="HorseInfo"]//a`).getAttribute('href');
+      await page.goto(horseUrl);
+      const horseTrainer = await this.extractTextContent(page, `//div[@class="db_prof_area_02"]/table//tr[position()=2]/td`);
+      const horseOwner = await this.extractTextContent(page, `//div[@class="db_prof_area_02"]/table//tr[position()=3]/td`);;
+      await page.goBack();
 
       const entryHorse = { 
         horseId, id, box, horseOrder, horseName, sexAndAge, burdenWeight, 
