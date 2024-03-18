@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    volumes:
+      - ./:/app
+    ports:
+      - 8888:8888
+    tty: true
+    networks:
+      - external
+
+
+networks:
+  external:
+    external: true
