@@ -2,13 +2,12 @@ services:
   app:
     build: .
     volumes:
-      - ./:/app
-    ports:
-      - 8888:8888
-    tty: true
+      - .:/app
+    env_file:
+      - ./.env
+    command: python main.py ${MODEL_VERSION}
     networks:
       - external
-
 
 networks:
   external:
