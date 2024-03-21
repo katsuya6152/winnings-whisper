@@ -8,4 +8,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD ["python", "main.py", "v1.0"]
+CMD ["python", "main.py", "train", "v0.0"]

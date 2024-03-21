@@ -12,10 +12,12 @@ def label_encoder(df, cols):
         return_df[col] = return_df[col].replace({'nan': np.nan})
     return return_df
 
-def clean_df(df, int_columns, float_columns):
+def clean_df(df, int_columns, float_columns, mode):
     return_df = df.copy()
-    return_df['rank'] = return_df['rank'].replace({'1': 1, '2': 1, '3': 1})
-    return_df.loc[~(return_df['rank'] == 1), 'rank'] = 0
+    if mode == "train":
+        return_df['rank'] = return_df['rank'].replace({'1': 1, '2': 1, '3': 1})
+        return_df.loc[~(return_df['rank'] == 1), 'rank'] = 0
+
     for col in int_columns:
         return_df[col] = pd.to_numeric(return_df[col], errors='coerce').fillna(0).astype(int)
     for col in float_columns:
@@ -34,7 +36,7 @@ def split_target(df):
     y = df['rank']
     return X, y
 
-def preprocess_data(df):
+def preprocess_data(df, mode):
     ENCODING_COLUMNS = [
         "id", "race_name", "race_place",
         "race_state", "race_course", "race_weather",
@@ -45,8 +47,10 @@ def preprocess_data(df):
     INT_COLUMNS = [
         "box", "horse_order", "horse_weight", "race_distance",
         "race_start", "age", "day_of_year", "number_of_entries",
-        "difference_weight", "day_of_year", "rank"
+        "difference_weight", "day_of_year"
     ]
+    if mode == "train":
+        INT_COLUMNS.append("rank")
     
     FLOAT_COLUMNS =[
         "burden_weight"
@@ -54,6 +58,6 @@ def preprocess_data(df):
     
     encoded_df = label_encoder(df, ENCODING_COLUMNS)
     
-    cleaned_df = clean_df(encoded_df, INT_COLUMNS, FLOAT_COLUMNS)
+    cleaned_df = clean_df(encoded_df, INT_COLUMNS, FLOAT_COLUMNS, mode)
     
     return cleaned_df
