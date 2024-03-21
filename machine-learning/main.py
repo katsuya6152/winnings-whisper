@@ -14,7 +14,7 @@ def train(mode, model_version, output_path):
 
     race_df, race_results_df = load_data()
     feature_engineered_df = get_all_feature(race_df, race_results_df, mode)
-    preprocessed_df = preprocess_data(feature_engineered_df, mode)
+    preprocessed_df = preprocess_data(feature_engineered_df, mode, output_path)
     train_df, val_df, test_df = split_df(preprocessed_df)
 
     X_train, y_train = split_target(train_df)
@@ -31,7 +31,7 @@ def predict(mode, model_version, output_path):
 
     weekly_races_df, race_entries_df = load_new_data()
     feature_engineered_df = get_all_feature(weekly_races_df, race_entries_df, mode)
-    preprocessed_df = preprocess_data(feature_engineered_df, mode).drop('date', axis=1)
+    preprocessed_df = preprocess_data(feature_engineered_df, mode, output_path).drop('date', axis=1)
 
     model = load_model(output_path)
     predictions = model.predict_proba(preprocessed_df)[:, 1]
