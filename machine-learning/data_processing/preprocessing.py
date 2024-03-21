@@ -2,14 +2,26 @@ from sklearn import preprocessing
 import pandas as pd
 import datetime as dt
 import numpy as np
+from joblib import dump, load
 
-def label_encoder(df, cols):
+def label_encoder(df, cols, mode, output_path):
     return_df = df.copy()
-    for col in cols:
-        le = preprocessing.LabelEncoder()
-        return_df[col] = return_df[col].astype(str)
-        return_df[col] = pd.Series(le.fit_transform(return_df[col]))
-        return_df[col] = return_df[col].replace({'nan': np.nan})
+    return_df[cols] = return_df[cols].fillna('missing')
+
+    oe = preprocessing.OrdinalEncoder(
+        handle_unknown="use_encoded_value",
+        unknown_value=-1,
+    )
+
+    if mode == "train":
+        return_df[cols] = oe.fit_transform(return_df[cols])
+        dump(oe, f'{output_path}/categories.joblib')
+    elif mode == "predict":
+        loaded_encoder = load(f'{output_path}/categories.joblib')
+        return_df[cols] = loaded_encoder.transform(return_df[cols])
+    else:
+        raise ValueError("Unsupported mode. Use 'train' or 'predict'.")
+    return_df = return_df.replace({'nan': np.nan})
     return return_df
 
 def clean_df(df, int_columns, float_columns, mode):
@@ -36,16 +48,16 @@ def split_target(df):
     y = df['rank']
     return X, y
 
-def preprocess_data(df, mode):
+def preprocess_data(df, mode, output_path):
     ENCODING_COLUMNS = [
-        "id", "race_name", "race_place",
+        "race_name", "race_place",
         "race_state", "race_course", "race_weather",
         "sex_and_age", "sex",
         "jockey", "horse_trainer", "horse_owner"
     ]
     
     INT_COLUMNS = [
-        "box", "horse_order", "horse_weight", "race_distance",
+        "id", "box", "horse_order", "horse_weight", "race_distance",
         "race_start", "age", "day_of_year", "number_of_entries",
         "difference_weight", "day_of_year"
     ]
@@ -56,7 +68,7 @@ def preprocess_data(df, mode):
         "burden_weight"
     ]
     
-    encoded_df = label_encoder(df, ENCODING_COLUMNS)
+    encoded_df = label_encoder(df, ENCODING_COLUMNS, mode, output_path)
     
     cleaned_df = clean_df(encoded_df, INT_COLUMNS, FLOAT_COLUMNS, mode)
     
