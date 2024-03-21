@@ -5,7 +5,7 @@ services:
       - .:/app
     env_file:
       - ./.env
-    command: python main.py ${MODEL_VERSION}
+    command: python main.py ${MODE} ${MODEL_VERSION}
     networks:
       - external
 

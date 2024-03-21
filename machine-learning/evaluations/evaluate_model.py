@@ -4,7 +4,7 @@ from sklearn.metrics import confusion_matrix, roc_auc_score, roc_curve
 import pandas as pd
 import lightgbm as lgbm
 
-def evaluate_model_performance(model, X_test, y_test, version, output_dir="output/model_evaluations"):
+def evaluate_model_performance(model, X_test, y_test, version, output_dir):
     y_pred = model.predict_proba(X_test)[:, 1]
     y_pred_binary = model.predict(X_test)
     
@@ -17,7 +17,7 @@ def evaluate_model_performance(model, X_test, y_test, version, output_dir="outpu
     sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
     plt.xlabel('Predicted')
     plt.ylabel('True')
-    plt.savefig(f"{output_dir}/confusion_matrix_{version}.png")
+    plt.savefig(f"{output_dir}/confusion_matrix.png")
     plt.close()
 
     fpr, tpr, _ = roc_curve(y_test, y_pred)
@@ -30,7 +30,7 @@ def evaluate_model_performance(model, X_test, y_test, version, output_dir="outpu
     plt.ylabel('True Positive Rate')
     plt.title('Receiver Operating Characteristic')
     plt.legend(loc="lower right")
-    plt.savefig(f"{output_dir}/roc_curve_{version}.png")
+    plt.savefig(f"{output_dir}/roc_curve.png")
     plt.close()
 
     feature_importances = pd.DataFrame(model.feature_importances_,
@@ -40,7 +40,7 @@ def evaluate_model_performance(model, X_test, y_test, version, output_dir="outpu
 
     lgbm.plot_importance(model, importance_type='split', max_num_features=10)
     plt.title('Feature Importance')
-    plt.savefig(f"{output_dir}/feature_importance_{version}.png")
+    plt.savefig(f"{output_dir}/feature_importance.png")
     plt.close()
 
     evaluation_results = {

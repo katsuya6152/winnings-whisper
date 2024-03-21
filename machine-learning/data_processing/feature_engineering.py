@@ -27,30 +27,40 @@ def get_horse_weight(df):
     return_df["horse_weight"] = return_df["horse_weight"].str[0:3]
     return return_df
 
-def get_date(df):
+def get_date(df, mode):
     return_df = df.copy()
     return_df['date'] = return_df['date'].str.split(' ', expand=True)[0]
-    return_df['date'] = pd.to_datetime(return_df['date'], format='%Y年%m月%d日')
-    return_df['day_of_year'] = return_df['date'].dt.day_of_year
+    if mode == "train":
+        return_df['date'] = pd.to_datetime(return_df['date'], format='%Y年%m月%d日')
+        return_df['day_of_year'] = return_df['date'].dt.day_of_year
+    elif mode == "predict":
+        return_df['date'] = pd.to_datetime(return_df['date'].str[:-3], format='%m月%d日')
+        return_df['day_of_year'] = 2024
     return_df['date_cos'] = np.cos(2 * np.pi * return_df['day_of_year'] / return_df['day_of_year'].max())
     return_df['date_sin'] = np.sin(2 * np.pi * return_df['day_of_year'] / return_df['day_of_year'].max())
     return return_df
 
-def get_all_feature(race_df, race_results_df):
-    merge_df = pd.merge(race_df, race_results_df, on='id', how='left')
-    merge_df = merge_df.dropna(subset=["id"])
-    
+def get_all_feature(race_df, race_results_df, mode):
     USE_COLUMNS = [
         "id", "race_name", "race_place", "number_of_entries", "race_state", "date",
-        "rank", "box", "horse_order", "sex_and_age", "burden_weight",
+        "box", "horse_order", "sex_and_age", "burden_weight",
         "jockey", "horse_weight", "horse_trainer", "horse_owner"
     ]
-    use_df = merge_df[USE_COLUMNS]
+
+    if mode == "train":
+        merge_df = pd.merge(race_df, race_results_df, on='id', how='left').dropna(subset=["id"])
+        USE_COLUMNS.append("rank")
+        use_df = merge_df[USE_COLUMNS]
+    elif mode == "predict":
+        merge_df = pd.merge(race_df, race_results_df, left_on='id', right_on='race_id', how='left').dropna(subset=["id"])
+        use_df = merge_df[USE_COLUMNS]
+    else:
+        raise ValueError("Unsupported mode. Use 'train' or 'predict'.")
 
     df = use_df.copy()
     df = get_race_state_features(df)
     df = get_sex_and_age(df)
     df = get_horse_weight(df)
-    df = get_date(df)
+    df = get_date(df, mode)
     
     return df

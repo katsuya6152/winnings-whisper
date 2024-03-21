@@ -1,12 +1,10 @@
+import os
 import lightgbm as lgbm
 from sklearn.metrics import roc_auc_score, confusion_matrix
 import numpy as np
+import joblib
 
-def train_and_evaluate_model(X_train, y_train, X_val, y_val):
-
-    # train_set = lgbm.Dataset(X_train, y_train)
-    # val_set = lgbm.Dataset(X_val, y_val)
-
+def train_and_evaluate_model(X_train, y_train, X_val, y_val, output_path):
     params = {
         "objective": "binary",
         "metric": "auc",
@@ -32,6 +30,9 @@ def train_and_evaluate_model(X_train, y_train, X_val, y_val):
     val_auc = roc_auc_score(y_val, y_pred_val)
 
     print(f"Validation AUC: {val_auc}")
+
+    model_filename = os.path.join(output_path, "model.joblib")
+    joblib.dump(clf, model_filename)
 
     return clf, {"val_auc": val_auc}
 
