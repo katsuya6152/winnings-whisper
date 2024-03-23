@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import axios from 'axios'
 
 import { Button } from '@/components/ui/button'
+import { apiUrl } from '@/lib/const'
 
 const loginSchema = z.object({
   email: z
@@ -40,9 +41,8 @@ function LoginPage() {
     const email = data.email
     const password = data.password
 
-    // TODO: post url
     axios
-      .post('http://localhost:8080/login', { email, password })
+      .post(`${apiUrl}/login`, { email, password })
       .then((response) => {
         localStorage.setItem('token', response.data.token)
         router.push('/top')
