@@ -1,0 +1,32 @@
+[
+  {
+    "evaluation": "Accuracy",
+    "previous": 0.7762,
+    "new": 0.7738,
+    "fullMark": 1
+  },
+  {
+    "evaluation": "Recall",
+    "previous": 0.1476,
+    "new": 0.1721,
+    "fullMark": 1
+  },
+  {
+    "evaluation": "Precision",
+    "previous": 0.592,
+    "new": 0.5577,
+    "fullMark": 1
+  },
+  {
+    "evaluation": "F1",
+    "previous": 0.2363,
+    "new": 0.263,
+    "fullMark": 1
+  },
+  {
+    "evaluation": "AUC",
+    "previous": 0.558206,
+    "new": 0.694894,
+    "fullMark": 1
+  }
+]
