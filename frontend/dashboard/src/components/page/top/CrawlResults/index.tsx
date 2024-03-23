@@ -6,7 +6,7 @@ import { DataInformation } from './DataInformation'
 export const CrawlResults = () => {
   return (
     <div className="px-8 py-4">
-      <div className="grid grid-cols-2 place-items-center gap-2">
+      <div className="grid h-full w-full grid-cols-2 place-items-center gap-2">
         <CrawledTime />
         <RefineCriteria />
         <ExitReason />

@@ -1,5 +1,6 @@
 import { Database } from 'lucide-react'
 import { BlurCard } from '@/components/ui/BlurCard'
+import { Separator } from '@/components/ui/separator'
 
 export const DataInformation = () => {
   return (
@@ -12,7 +13,7 @@ export const DataInformation = () => {
           <p>取得済みデータ</p>
         </div>
       </div>
-      <div className="flex w-full flex-col gap-2">
+      <div className="flex h-full w-full flex-col justify-center gap-2">
         <div className="flex justify-between">
           <div className="flex w-1/2 flex-col items-center">
             <div className="flex items-end gap-1">
@@ -29,6 +30,7 @@ export const DataInformation = () => {
             <p className="text-xs text-gray-500">全出馬結果件数</p>
           </div>
         </div>
+        <Separator className="bg-gray-700" />
         <div className="flex flex-col items-center">
           <p className="font-bold">2024年03月05日 2回中山4日目</p>
           <p className="font-bold"> 3歳未勝利</p>

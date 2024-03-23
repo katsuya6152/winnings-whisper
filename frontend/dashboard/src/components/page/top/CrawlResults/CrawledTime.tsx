@@ -16,7 +16,7 @@ export const CrawledTime = () => {
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-center">
+      <div className="flex h-full flex-col items-center justify-center">
         <p className="font-bold">2024/03/23/16:00:46</p>
         <p className="text-xs text-gray-500">取得開始時刻</p>
         <p className="font-bold">2024/03/23/16:00:59</p>
