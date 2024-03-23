@@ -7,7 +7,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
 
-import { Button } from '@/components/ui/Button'
+import { Button } from '@/components/ui/button'
 
 const loginSchema = z.object({
   email: z
@@ -40,11 +40,12 @@ function LoginPage() {
     const email = data.email
     const password = data.password
 
+    // TODO: post url
     axios
       .post('http://localhost:8080/login', { email, password })
       .then((response) => {
-        localStorage.setItem('token', response.data.token) // トークンを保存
-        router.push('http://localhost:3000') // ログイン成功後に/homeに遷移
+        localStorage.setItem('token', response.data.token)
+        router.push('/top')
       })
       .catch((error) => {
         console.error('ログインに失敗しました', error)
