@@ -1,0 +1,12 @@
+[
+  { "name": "jockey", "value": 696 },
+  { "name": "horse_trainer", "value": 541 },
+  { "name": "horse_owner", "value": 538 },
+  { "name": "horse_weight", "value": 451 },
+  { "name": "id", "value": 322 },
+  { "name": "race_name", "value": 274 },
+  { "name": "day_of_year", "value": 220 },
+  { "name": "date_sin", "value": 195 },
+  { "name": "date_cos", "value": 193 },
+  { "name": "race_start", "value": 178 }
+]

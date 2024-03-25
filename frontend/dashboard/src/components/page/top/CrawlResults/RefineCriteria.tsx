@@ -13,7 +13,7 @@ export const RefineCriteria = () => {
           <p>絞り込み条件</p>
         </div>
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex h-full flex-col items-start justify-center gap-2">
         <div className="flex gap-2">
           <p>競走種別:</p>
           <div className="flex gap-2">
