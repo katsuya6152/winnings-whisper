@@ -11,13 +11,17 @@ import {
 export const Predict = () => {
   return (
     <div className="p-4">
-      <div className="flex items-center justify-center gap-4">
+      <div className="relative flex items-center justify-center gap-4">
         <div className="rounded-lg border p-2">
           <Bot className="h-4 w-4" />
         </div>
         <div className="font-bold">
           <p>予測</p>
         </div>
+
+        <p className="absolute bottom-0 right-0 text-[10px]">
+          ※予測はレース前日もしくは当日に更新されます
+        </p>
       </div>
       <div>
         <Accordion type="single" collapsible className="w-full">
