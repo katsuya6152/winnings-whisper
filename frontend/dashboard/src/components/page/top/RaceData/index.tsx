@@ -7,6 +7,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { Separator } from '@/components/ui/separator'
 
 const races = [
   {
@@ -42,6 +43,10 @@ const races = [
 export const RaceResults = () => {
   return (
     <div className="overflow-auto px-8 py-4">
+      <Separator className="mb-4 bg-gray-700 sm:hidden" />
+      <p className="mb-2 text-center text-xl font-bold sm:hidden">
+        過去レースデータ
+      </p>
       <Table>
         <TableCaption>Only 4 past race data is displayed.</TableCaption>
         <TableHeader>

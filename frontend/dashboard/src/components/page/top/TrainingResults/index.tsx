@@ -18,10 +18,13 @@ import {
 import evaluationData from './evaluationData.json'
 import featureImportance from './featureImportance.json'
 import GaugeChart from './GaugeChart'
+import { Separator } from '@/components/ui/separator'
 
 export const TrainingResults = () => {
   return (
-    <div className="flex justify-center gap-4 p-4">
+    <div className="mt-8 flex flex-col justify-center gap-4 p-4 sm:mt-0 sm:flex-row">
+      <Separator className="bg-gray-700 sm:hidden" />
+      <p className="mb-2 text-center text-xl font-bold sm:hidden">学習結果</p>
       <div className="flex flex-col justify-center gap-2">
         <div>
           <div className="flex items-center justify-center gap-2">
@@ -55,7 +58,9 @@ export const TrainingResults = () => {
             <Legend />
           </RadarChart>
         </div>
+        <Separator className="bg-gray-700 sm:hidden" />
         <GaugeChart />
+        <Separator className="bg-gray-700 sm:hidden" />
       </div>
       <div className="flex flex-col justify-center">
         <div>
