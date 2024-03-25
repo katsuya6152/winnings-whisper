@@ -5,5 +5,8 @@
   { "name": "horse_weight", "value": 451 },
   { "name": "id", "value": 322 },
   { "name": "race_name", "value": 274 },
-  { "name": "day_of_year", "value": 220 }
+  { "name": "day_of_year", "value": 220 },
+  { "name": "date_sin", "value": 195 },
+  { "name": "date_cos", "value": 193 },
+  { "name": "race_start", "value": 178 }
 ]
