@@ -21,8 +21,8 @@ import GaugeChart from './GaugeChart'
 
 export const TrainingResults = () => {
   return (
-    <div className="flex gap-8 p-4">
-      <div className="flex flex-col gap-2">
+    <div className="flex justify-center gap-4 p-4">
+      <div className="flex flex-col justify-center gap-2">
         <div>
           <div className="flex items-center justify-center gap-2">
             <ScanEye className="h-4 w-4" />
@@ -37,7 +37,7 @@ export const TrainingResults = () => {
           >
             <PolarGrid />
             <PolarAngleAxis dataKey="evaluation" />
-            <PolarRadiusAxis angle={30} domain={[0, 1]} />
+            <PolarRadiusAxis angle={18} domain={[0, 1]} />
             <Radar
               name="v0.0"
               dataKey="previous"
@@ -57,7 +57,7 @@ export const TrainingResults = () => {
         </div>
         <GaugeChart />
       </div>
-      <div className="flex flex-col justify-between">
+      <div className="flex flex-col justify-center">
         <div>
           <div className="flex items-center justify-center gap-2">
             <ThumbsUp className="h-4 w-4" />
