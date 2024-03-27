@@ -6,7 +6,9 @@ import { z } from 'zod'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import axios from 'axios'
+import { RotateCw } from 'lucide-react'
 
+import { useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { apiUrl } from '@/lib/const'
 
@@ -30,14 +32,16 @@ function LoginPage() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors },
   } = useForm<IFormInput>({
     resolver: zodResolver(loginSchema),
   })
   const router = useRouter()
+  const [loading, setLoding] = useState(false)
 
   const onSubmit = async (data: IFormInput) => {
-    console.log(data)
+    setLoding(true)
     const email = data.email
     const password = data.password
 
@@ -45,10 +49,15 @@ function LoginPage() {
       .post(`${apiUrl}/login`, { email, password })
       .then((response) => {
         localStorage.setItem('token', response.data.token)
+        setLoding(false)
         router.push('/top')
       })
-      .catch((error) => {
-        console.error('ログインに失敗しました', error)
+      .catch(() => {
+        setLoding(false)
+        setError('password', {
+          type: 'custom',
+          message: 'ログインに失敗しました。',
+        })
       })
   }
 
@@ -117,8 +126,19 @@ function LoginPage() {
             )}
           </div>
           <div>
-            <Button type="submit" className="w-full" variant="default">
-              Log in
+            <Button
+              type="submit"
+              className="w-full"
+              variant="default"
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <RotateCw className="mr-2 h-4 w-4 animate-spin" />
+                </>
+              ) : (
+                'Log in'
+              )}
             </Button>
           </div>
         </form>
