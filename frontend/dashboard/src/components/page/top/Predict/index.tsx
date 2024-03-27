@@ -17,10 +17,10 @@ export const Predict = () => {
         <div className="rounded-lg border p-2">
           <Bot className="h-4 w-4" />
         </div>
-        <div className="font-bold">
+        <div className="text-xl font-bold">
           <p>予測</p>
         </div>
-        <p className="bottom-0 right-0 hidden text-[10px] sm:absolute">
+        <p className="absolute bottom-0 right-0 hidden text-[10px] sm:block">
           ※予測はレース前日もしくは当日に更新されます
         </p>
       </div>
