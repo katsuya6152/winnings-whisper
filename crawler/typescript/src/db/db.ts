@@ -21,8 +21,9 @@ export class DatabaseUtility {
                 user: process.env.DB_USER,
                 password: process.env.DB_PASS,
                 database: process.env.DB_NAME,
+                // ローカルDBの場合はfalse
                 ssl  : {
-                    rejectUnauthorized: true
+                    rejectUnauthorized: false
                 }
             })
             dbc.connect((error) => {

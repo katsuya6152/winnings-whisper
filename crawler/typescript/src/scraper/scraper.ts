@@ -61,9 +61,13 @@ export class Scraper {
 
     const races = await page.locator(`//span[@class="RaceList_ItemLong Turf"]/parent::div/parent::div/parent::a`).all();
     for (const race of races) {
-      await race.click();
-      await this.processRace(page);
-      await page.goBack();
+      const href = await race.getAttribute('href');
+      if (href != null) {
+        const replacedHref = href.replace('..', 'https://race.netkeiba.com').replace('result', 'shutuba');
+        await page.goto(replacedHref);
+        await this.processRace(page);
+        await page.goBack();
+      }
     }
 
     await browser.close();
@@ -83,7 +87,7 @@ export class Scraper {
   }
 
   private async insertRace(race: any) {
-    const sql = "INSERT INTO weekly_races (id, race_name, race_place, number_of_entries, race_state, date) VALUES (:id, :raceName, :racePlace, :numberOfEntries, :raceState, :date)";
+    const sql = "INSERT INTO weekly_races (id, race_name, race_place, number_of_entries, race_state, date) VALUES (:id, :raceName, :racePlace, :numberOfEntries, :raceState, :date) ON DUPLICATE KEY UPDATE race_name=VALUES(race_name), race_place=VALUES(race_place), number_of_entries=VALUES(number_of_entries), race_state=VALUES(race_state), date=VALUES(date)";
     try {
       await this.db.query(sql, race);
       await this.db.query("select * from weekly_races")
@@ -122,7 +126,13 @@ export class Scraper {
     }
   }
   private async insertEntrie(horse: any) {
-    const sql = "INSERT INTO race_entries (horse_id, race_id, box, horse_order, horse_name, sex_and_age, burden_weight, jockey, horse_weight, horse_trainer, horse_owner) VALUES (:horseId, :id, :box, :horseOrder, :horseName, :sexAndAge, :burdenWeight, :jockey, :horseWeight, :horseTrainer, :horseOwner)";
+    const sql = `
+      INSERT INTO race_entries (horse_id, race_id, box, horse_order, horse_name, sex_and_age, burden_weight, jockey, horse_weight, horse_trainer, horse_owner)
+      VALUES (:horseId, :id, :box, :horseOrder, :horseName, :sexAndAge, :burdenWeight, :jockey, :horseWeight, :horseTrainer, :horseOwner) 
+      ON DUPLICATE KEY UPDATE 
+      horse_weight = VALUES(horse_weight);
+    `;
+
     try {
       await this.db.query(sql, horse);
       await this.db.query("select * from race_entries")
