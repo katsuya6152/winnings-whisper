@@ -9,6 +9,7 @@ import (
 
 type ITopController interface {
 	GetLatestSpiderStats(c echo.Context) error
+	GetRaces(c echo.Context) error
 }
 
 type topController struct {
@@ -25,4 +26,12 @@ func (tc *topController) GetLatestSpiderStats(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	return c.JSON(http.StatusCreated, spiderStatsRes)
+}
+
+func (tc *topController) GetRaces(c echo.Context) error {
+	racesRes, err := tc.tu.GetRaces()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+	return c.JSON(http.StatusCreated, racesRes)
 }

@@ -11,6 +11,7 @@ import (
 
 type ITopUsecase interface {
 	GetLatestSpiderStats() (model.LatestSpiderStatsRes, error)
+	GetRaces() ([]model.RaceRes, error)
 }
 
 type topUsecase struct {
@@ -140,4 +141,24 @@ func insertNewline(info string) string {
 	secondSpace += firstSpace + 1
 
 	return info[:secondSpace] + "\n" + info[secondSpace+1:]
+}
+
+func (tu *topUsecase) GetRaces() ([]model.RaceRes, error) {
+	races, err := tu.rr.GetLatestRaces(4)
+	if err != nil {
+		return []model.RaceRes{}, err
+	}
+
+	var racesRes []model.RaceRes
+	for _, race := range races {
+		raceRes := model.RaceRes{
+			RaceName:        race.RaceName,
+			RacePlace:       *race.RacePlace,
+			NumberOfEntries: *race.NumberOfEntries,
+			Date:            *race.Date,
+		}
+		racesRes = append(racesRes, raceRes)
+	}
+
+	return racesRes, nil
 }

@@ -38,5 +38,6 @@ func NewRouter(hc controller.IHealthController, uc controller.IUserController, t
 		TokenLookup: "cookie:token",
 	}))
 	e.GET("/top/spider-stats/latest", tc.GetLatestSpiderStats)
+	e.GET("/top/races", tc.GetRaces)
 	return e
 }

@@ -9,6 +9,7 @@ import (
 
 type IRacesRepository interface {
 	GetLatestRace() (*model.Race, error)
+	GetLatestRaces(limit int) ([]model.Race, error)
 	CountRaces() (int64, error)
 }
 
@@ -28,6 +29,16 @@ func (tr *racesRepository) GetLatestRace() (*model.Race, error) {
 		return &latestRace, err
 	}
 	return &latestRace, nil
+}
+
+func (tr *racesRepository) GetLatestRaces(limit int) ([]model.Race, error) {
+	var races []model.Race
+	err := tr.db.Order("date DESC").Limit(limit).Find(&races).Error
+	if err != nil {
+		fmt.Println("Error fetching latest races:", err)
+		return nil, err
+	}
+	return races, nil
 }
 
 func (tr *racesRepository) CountRaces() (int64, error) {
