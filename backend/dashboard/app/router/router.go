@@ -10,7 +10,7 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-func NewRouter(hc controller.IHealthController, uc controller.IUserController) *echo.Echo {
+func NewRouter(hc controller.IHealthController, uc controller.IUserController, tc controller.ITopController) *echo.Echo {
 	e := echo.New()
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"http://localhost:3000", os.Getenv("FE_URL")},
@@ -37,5 +37,7 @@ func NewRouter(hc controller.IHealthController, uc controller.IUserController) *
 		SigningKey:  []byte(os.Getenv("SECRET")),
 		TokenLookup: "cookie:token",
 	}))
+	e.GET("/top/spider-stats/latest", tc.GetLatestSpiderStats)
+	e.GET("/top/races", tc.GetRaces)
 	return e
 }
