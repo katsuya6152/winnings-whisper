@@ -14,12 +14,13 @@ type ITopUsecase interface {
 }
 
 type topUsecase struct {
-	tr repository.ISpiderStatsRepository
-	rr repository.IRacesRepository
+	tr  repository.ISpiderStatsRepository
+	rr  repository.IRacesRepository
+	rrr repository.IRaceResultsRepository
 }
 
-func NewTopUsecase(tr repository.ISpiderStatsRepository, rr repository.IRacesRepository) ITopUsecase {
-	return &topUsecase{tr, rr}
+func NewTopUsecase(tr repository.ISpiderStatsRepository, rr repository.IRacesRepository, rrr repository.IRaceResultsRepository) ITopUsecase {
+	return &topUsecase{tr, rr, rrr}
 }
 
 func (tu *topUsecase) GetLatestSpiderStats() (model.LatestSpiderStatsRes, error) {
@@ -33,12 +34,24 @@ func (tu *topUsecase) GetLatestSpiderStats() (model.LatestSpiderStatsRes, error)
 		return model.LatestSpiderStatsRes{}, err
 	}
 
+	countRaces, err := tu.rr.CountRaces()
+	if err != nil {
+		return model.LatestSpiderStatsRes{}, err
+	}
+
+	countRaceResults, err := tu.rrr.CountRaceResults()
+	if err != nil {
+		return model.LatestSpiderStatsRes{}, err
+	}
+
 	statsRes := model.LatestSpiderStatsRes{
 		StartTime:   formatDateTime(stats.StartTime),
 		FinishTime:  formatDateTime(stats.FinishTime),
 		ElapsedTime: formatElapsedTimeFromString(stats.ElapsedTime),
 		StopReason:  findKeywordInString(stats.Reason, "exists in database"),
 		Status:      "Success",
+		CountRaces:  countRaces,
+		CountHorse:  countRaceResults,
 		LatestRace:  formatRaceInfo(race.Date),
 	}
 	return statsRes, nil

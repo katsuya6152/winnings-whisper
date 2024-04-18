@@ -9,6 +9,7 @@ import (
 
 type IRacesRepository interface {
 	GetLatestRace() (*model.Race, error)
+	CountRaces() (int64, error)
 }
 
 type racesRepository struct {
@@ -27,4 +28,14 @@ func (tr *racesRepository) GetLatestRace() (*model.Race, error) {
 		return &latestRace, err
 	}
 	return &latestRace, nil
+}
+
+func (tr *racesRepository) CountRaces() (int64, error) {
+	var count int64
+	err := tr.db.Model(&model.Race{}).Count(&count).Error
+	if err != nil {
+		fmt.Println("Error counting race records:", err)
+		return 0, err
+	}
+	return count, nil
 }

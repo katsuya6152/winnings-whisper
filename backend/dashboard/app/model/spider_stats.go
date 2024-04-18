@@ -18,5 +18,7 @@ type LatestSpiderStatsRes struct {
 	ElapsedTime string `json:"elapsed_time"`
 	StopReason  string `json:"stop_reason"`
 	Status      string `json:"status"`
+	CountRaces  int64  `json:"count_races"`
+	CountHorse  int64  `json:"count_horse"`
 	LatestRace  string `json:"latest_race"`
 }
