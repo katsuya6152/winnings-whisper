@@ -75,7 +75,7 @@ export class Scraper {
 
   private async processRace(page: any) {
     const id = await this.extractId(page);
-    const raceName = await this.extractTextContent(page, `//div[@class="RaceName"]`);
+    const raceName = await this.extractTextContent(page, `//h1[@class="RaceName"]`);
     const racePlace = await this.extractTextContent(page, `//ul[contains(@class, "Col")]/li[@class="Active"]`);
     const numberOfEntries = (await page.locator(`//tbody/tr[@class="HorseList"]`).all()).length;
     const raceState = await this.extractTextContent(page, `//div[@class="RaceData01"]`);

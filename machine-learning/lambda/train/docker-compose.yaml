@@ -1,0 +1,11 @@
+services:
+  ww-train:
+    image: ww-train:latest
+    container_name: ww-train-container
+    build: .
+    volumes:
+      - $HOME/.aws/:/root/.aws/
+    ports:
+      - "9000:8080"
+    env_file:
+      - .env

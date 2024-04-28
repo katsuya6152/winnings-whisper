@@ -109,8 +109,6 @@ func formatRaceInfo(info *string) string {
 		return ""
 	}
 
-	fmt.Println(*info)
-
 	// " (" もしくは "[" 以降の文字列を削除
 	openParenIndex := strings.Index(*info, "(")
 	openBracketIndex := strings.Index(*info, "[")

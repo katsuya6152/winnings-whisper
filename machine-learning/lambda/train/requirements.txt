@@ -1,0 +1,11 @@
+argparse
+pandas
+numpy
+scikit-learn
+lightgbm
+sqlalchemy
+mysql-connector-python
+python-dotenv
+matplotlib
+seaborn
+joblib
