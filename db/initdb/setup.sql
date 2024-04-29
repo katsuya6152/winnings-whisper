@@ -40,3 +40,19 @@ CREATE TABLE `race_results`
     KEY `FK_1` (`id`),
     CONSTRAINT `FK_2` FOREIGN KEY `FK_1` (`id`) REFERENCES `races` (`id`)
 );
+
+-- ************************************** `refund`
+
+CREATE TABLE `refund`
+(
+    `id`                   varchar(45) NOT NULL ,
+    `race_id`              varchar(45) NULL ,
+    `bet_type`             varchar(45) NULL ,
+    `winning_horse_order`  int NULL ,
+    `payout`               int NULL ,
+    `popularity`           int NULL ,
+
+    PRIMARY KEY (`id`),
+    KEY `FK_1` (`race_id`),
+    CONSTRAINT `FK_3` FOREIGN KEY `FK_1` (`race_id`) REFERENCES `races` (`id`)
+);

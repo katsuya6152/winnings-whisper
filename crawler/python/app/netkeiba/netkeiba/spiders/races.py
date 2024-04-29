@@ -1,9 +1,10 @@
 import scrapy
 from scrapy.spiders import CrawlSpider, Rule
 from scrapy.linkextractors import LinkExtractor
-from netkeiba.items import CrawlNetkeibaItem, CrawlRaceResultItem
+from netkeiba.items import CrawlNetkeibaItem, CrawlRaceResultItem, CrawlRefundItem
 from scrapy_playwright.page import PageMethod
 import re
+import logging
 
 class RacesSpider(CrawlSpider):
     name = "races"
@@ -64,6 +65,18 @@ class RacesSpider(CrawlSpider):
             race_state = response.xpath('//diary_snap_cut/span/text()').get(), 
             date = response.xpath('//div[@class="data_intro"]/p/text()').get()
         )
+
+        bet_type = response.xpath('//th[@class="fuku"]/text()').get()
+        for i in range(1, 4):
+            yield CrawlRefundItem(
+                id = id + str(i).zfill(2),
+                race_id = id,
+                bet_type = bet_type,
+                winning_horse_order = response.xpath(f'//tr[th[@class="fuku"]]//td[1]/text()[{i}]').get(),
+                payout = response.xpath(f'//tr[th[@class="fuku"]]//td[@class="txt_r"][1]/text()[{i}]').get(),
+                winning_horse_popularity = response.xpath(f'//tr[th[@class="fuku"]]//td[@class="txt_r"][2]/text()[{i}]').get()
+            )
+
         for index, tr_ in enumerate(tr_elements):
             if index == 0:
                 continue
