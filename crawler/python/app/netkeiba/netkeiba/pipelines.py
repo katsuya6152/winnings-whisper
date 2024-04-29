@@ -1,6 +1,6 @@
 from .database import session
-from .models import Race, RaceResult
-from netkeiba.items import CrawlNetkeibaItem, CrawlRaceResultItem
+from .models import Race, RaceResult, Refund
+from netkeiba.items import CrawlNetkeibaItem, CrawlRaceResultItem, CrawlRefundItem
 from scrapy.exceptions import DropItem
 
 class GetRacePipeline:
@@ -54,6 +54,24 @@ class GetRacePipeline:
                 race_result.prize = item['prize']
                 try:
                     session.add(race_result)
+                    session.commit()
+                except:
+                    session.rollback()
+                    raise
+                finally:
+                    session.close()
+        elif isinstance(item, CrawlRefundItem):
+            id_exists = session.query(Refund).filter(Refund.id==item['id']).first()
+            if(id_exists == None):
+                refund = Refund()
+                refund.id = item['id']
+                refund.race_id = item['race_id']
+                refund.bet_type = item['bet_type']
+                refund.winning_horse_order = item['winning_horse_order']
+                refund.payout = item['payout']
+                refund.popularity = item['winning_horse_popularity']
+                try:
+                    session.add(refund)
                     session.commit()
                 except:
                     session.rollback()

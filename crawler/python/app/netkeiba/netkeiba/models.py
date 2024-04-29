@@ -41,6 +41,15 @@ class RaceResult(Base):
     horse_owner = Column('horse_owner', Text)
     prize = Column('prize', Text)
 
+class Refund(Base):
+    __tablename__ = 'refund'
+    id = Column('id', Text, primary_key=True)
+    race_id = Column('race_id', Text)
+    bet_type = Column('bet_type', Text)
+    winning_horse_order = Column('winning_horse_order', Integer)
+    payout = Column('payout', Integer)
+    popularity = Column('popularity', Integer)
+
 def main(args):
     Base.metadata.create_all(bind=ENGINE)
 

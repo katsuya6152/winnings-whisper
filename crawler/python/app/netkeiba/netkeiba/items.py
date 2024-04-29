@@ -28,3 +28,11 @@ class CrawlRaceResultItem(scrapy.Item):
     horse_trainer = scrapy.Field()
     horse_owner = scrapy.Field()
     prize = scrapy.Field()
+
+class CrawlRefundItem(scrapy.Item):
+    id = scrapy.Field()
+    race_id = scrapy.Field()
+    bet_type = scrapy.Field()
+    winning_horse_order = scrapy.Field()
+    payout = scrapy.Field()
+    winning_horse_popularity = scrapy.Field()
