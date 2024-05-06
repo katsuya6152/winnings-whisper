@@ -48,7 +48,7 @@ CREATE TABLE `refund`
     `id`                   varchar(45) NOT NULL ,
     `race_id`              varchar(45) NULL ,
     `bet_type`             varchar(45) NULL ,
-    `winning_horse_order`  int NULL ,
+    `winning_horse_order`  varchar(45) NULL ,
     `payout`               int NULL ,
     `popularity`           int NULL ,
 

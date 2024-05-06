@@ -66,15 +66,46 @@ class RacesSpider(CrawlSpider):
             date = response.xpath('//div[@class="data_intro"]/p/text()').get()
         )
 
-        bet_type = response.xpath('//th[@class="fuku"]/text()').get()
+        bet_type_tan = response.xpath('//th[@class="tan"]/text()').get()
+        yield CrawlRefundItem(
+            id = id + '00',
+            race_id = id,
+            bet_type = bet_type_tan,
+            winning_horse_order = response.xpath(f'//tr[th[@class="tan"]]//td[1]/text()').get(),
+            payout = int(response.xpath(f'//tr[th[@class="tan"]]//td[@class="txt_r"][1]/text()').get().replace(',', '')),
+            winning_horse_popularity = response.xpath(f'//tr[th[@class="tan"]]//td[@class="txt_r"][2]/text()').get()
+        )
+
+        bet_type_fuku = response.xpath('//th[@class="fuku"]/text()').get()
         for i in range(1, 4):
             yield CrawlRefundItem(
                 id = id + str(i).zfill(2),
                 race_id = id,
-                bet_type = bet_type,
+                bet_type = bet_type_fuku,
                 winning_horse_order = response.xpath(f'//tr[th[@class="fuku"]]//td[1]/text()[{i}]').get(),
-                payout = response.xpath(f'//tr[th[@class="fuku"]]//td[@class="txt_r"][1]/text()[{i}]').get(),
+                payout = int(response.xpath(f'//tr[th[@class="fuku"]]//td[@class="txt_r"][1]/text()[{i}]').get().replace(',', '')),
                 winning_horse_popularity = response.xpath(f'//tr[th[@class="fuku"]]//td[@class="txt_r"][2]/text()[{i}]').get()
+            )
+
+        bet_type_uren = response.xpath('//th[@class="uren"]/text()').get()
+        yield CrawlRefundItem(
+            id = id + '05',
+            race_id = id,
+            bet_type = bet_type_uren,
+            winning_horse_order = response.xpath(f'//tr[th[@class="uren"]]//td[1]/text()').get(),
+            payout = int(response.xpath(f'//tr[th[@class="uren"]]//td[@class="txt_r"][1]/text()').get()),
+            winning_horse_popularity = response.xpath(f'//tr[th[@class="uren"]]//td[@class="txt_r"][2]/text()').get()
+        )
+
+        bet_type_wide = response.xpath('//th[@class="wide"]/text()').get()
+        for i in range(1, 4):
+            yield CrawlRefundItem(
+                id = id + str(i+5).zfill(2),
+                race_id = id,
+                bet_type = bet_type_wide,
+                winning_horse_order = response.xpath(f'//tr[th[@class="wide"]]//td[1]/text()[{i}]').get(),
+                payout = int(response.xpath(f'//tr[th[@class="wide"]]//td[@class="txt_r"][1]/text()[{i}]').get().replace(',', '')),
+                winning_horse_popularity = response.xpath(f'//tr[th[@class="wide"]]//td[@class="txt_r"][2]/text()[{i}]').get()
             )
 
         for index, tr_ in enumerate(tr_elements):
